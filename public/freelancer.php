@@ -210,7 +210,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'freelancer') {
                             Create your first gig
                         </span>
 
-                        <button class="mt-8 bg-purple-800 rounded-lg py-2 px-4">
+                        <button id="openAgigs" class="mt-8 bg-purple-800 rounded-lg py-2 px-4">
                             Create a Gig
                         </button>
 
@@ -294,8 +294,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'freelancer') {
     </div>
 
     <!-- Add this form to the div where you want to display the "Create a Gig" form -->
-    <div
-        class="absolute left-[30%] bg-white p-7 rounded-xl broder border-rose-600 top-0 flex flex-col items-center mt-12 h-[600px] w-[500px] overflow-y-auto">
+    <div id="agigs"
+        class="hidden absolute left-[30%] bg-white p-7 rounded-xl broder border-rose-600 top-0 flex flex-col items-center mt-12 h-[600px] w-[500px] overflow-y-auto">
         <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-state-2130362-1800926.png"
             alt=" empty schedule" />
 
@@ -364,6 +364,19 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'freelancer') {
             </div>
         </form>
     </div>
+    <script>
+        const openAgigs = document.getElementById('openAgigs');
+        const closeAgigs = document.getElementById('closeAgigs');
+
+        openAgigs.addEventListener('click', () => {
+            const agigs = document.getElementById('agigs');
+            agigs.classList.remove('hidden');
+        });
+        closeAgigs.addEventListener('click', () => {
+            const agigs = document.getElementById('agigs');
+            agigs.classList.add('hidden');
+        });
+    </script>
 
 
 </body>
