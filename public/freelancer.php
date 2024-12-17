@@ -292,6 +292,80 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'freelancer') {
         </aside>
 
     </div>
+
+    <!-- Add this form to the div where you want to display the "Create a Gig" form -->
+    <div
+        class="absolute left-[30%] bg-white p-7 rounded-xl broder border-rose-600 top-0 flex flex-col items-center mt-12 h-[600px] w-[500px] overflow-y-auto">
+        <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-state-2130362-1800926.png"
+            alt=" empty schedule" />
+
+        <span class="font-bold mt-8">Create your first gig</span>
+
+        <form action="gig-create.php" method="post" class="w-full mt-8 flex flex-col items-center">
+            <!-- Gig Title -->
+            <label for="title" class="block text-gray-700 text-sm font-bold mb-2 w-full">Gig Title:</label>
+            <input type="text" id="title" name="title" required
+                class="block w-full appearance-none rounded-md py-2 pl-10 text-sm text-gray-700 border border-gray-300 mb-4">
+
+            <!-- Gig Description -->
+            <label for="description" class="block text-gray-700 text-sm font-bold mb-2 w-full">Gig Description:</label>
+            <textarea id="description" name="description" required rows="5"
+                class="block w-full appearance-none rounded-md py-2 pl-10 text-sm text-gray-700 border border-gray-300 mb-4"></textarea>
+
+            <!-- Gig Price -->
+            <label for="price" class="block text-gray-700 text-sm font-bold mb-2 w-full">Gig Price:</label>
+            <input type="number" step="0.01" id="price" name="price" required
+                class="block w-full appearance-none rounded-md py-2 pl-10 text-sm text-gray-700 border border-gray-300 mb-4">
+
+            <!-- Gig Category -->
+            <label for="category" class="block text-gray-700 text-sm font-bold mb-2 w-full">Gig Category:</label>
+            <select id="category" name="category" required
+                class="block w-full appearance-none rounded-md py-2 pl-10 text-sm text-gray-700 border border-gray-300 mb-4">
+                <option value="">Select a category</option>
+                <option value="web-development">Web Development</option>
+                <option value="graphic-design">Graphic Design</option>
+                <!-- Add more options here -->
+            </select>
+
+            <!-- Gig Subcategory -->
+            <label for="subcategory" class="block text-gray-700 text-sm font-bold mb-2 w-full">Gig Subcategory:</label>
+            <input type="text" id="subcategory" name="subcategory"
+                class="block w-full appearance-none rounded-md py-2 pl-10 text-sm text-gray-700 border border-gray-300 mb-4">
+
+            <!-- Gig Skills -->
+            <label for="skills" class="block text-gray-700 text-sm font-bold mb-2 w-full">Gig Skills:</label>
+            <input type="text" id="skills" name="skills"
+                class="block w-full appearance-none rounded-md py-2 pl-10 text-sm text-gray-700 border border-gray-300 mb-4">
+
+            <!-- Gig Experience -->
+            <label for="experience" class="block text-gray-700 text-sm font-bold mb-2 w-full">Gig Experience:</label>
+            <input type="text" id="experience" name="experience"
+                class="block w-full appearance-none rounded-md py-2 pl-10 text-sm text-gray-700 border border-gray-300 mb-4">
+
+            <!-- Gig Delivery Time -->
+            <label for="delivery_time" class="block text-gray-700 text-sm font-bold mb-2 w-full">Gig Delivery
+                Time:</label>
+            <input type="text" id="delivery_time" name="delivery_time"
+                class="block w-full appearance-none rounded-md py-2 pl-10 text-sm text-gray-700 border border-gray-300 mb-4">
+
+            <!-- Gig Type -->
+            <label for="gig_type" class="block text-gray-700 text-sm font-bold mb-2 w-full">Gig Type:</label>
+            <select id="gig_type" name="gig_type" required
+                class="block w-full appearance-none rounded-md py-2 pl-10 text-sm text-gray-700 border border-gray-300 mb-4">
+                <option value="">Select a type</option>
+                <option value="digital">Digital</option>
+                <option value="physical">Physical</option>
+                <!-- Add more options here -->
+            </select>
+
+            <div class="flex flex-row gap-4 mt-8">
+                <button type="submit" class="bg-purple-800 rounded-lg py-2 px-4 text-white">Create Gig</button>
+                <button id="closeAgigs" class="bg-red-600 rounded-lg py-2 px-4 text-white">Close</button>
+            </div>
+        </form>
+    </div>
+
+
 </body>
 
 </html>
