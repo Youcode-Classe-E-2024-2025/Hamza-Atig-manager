@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $_POST['password'];
 
     // Check for user with the given email
-    $stmt = $conn->prepare("SELECT id, username, password, role FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id, username, password, role, status FROM users WHERE email =?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -17,18 +17,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['password'])) {
-            // Password is correct, set session variables
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-
-            // Redirect based on role
-            if ($user['role'] === 'client') {
-                header("Location: client.php");
-                exit();
+            // Password is correct, check status
+            if ($user['status'] === 'pending') {
+                $error = "Your account is pending approval.";
+            } elseif ($user['status'] === 'refused') {
+                $error = "Your account has been refused.";
+            } elseif ($user['status'] === 'banned') {
+                $error = "Your account has been banned.";
             } else {
-                header("Location: freelancer.php");
-                exit();
+                // Status is active, set session variables
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['role'] = $user['role'];
+
+                // Redirect based on role
+                if ($user['role'] === 'client') {
+                    header("Location: client.php");
+                    exit();
+                } else {
+                    header("Location: freelancer.php");
+                    exit();
+                }
             }
         } else {
             $error = "Invalid email or password.";
@@ -66,11 +75,11 @@ $conn->close();
                                     here</a></p>
                         </div>
 
-                        <?php if (!empty($error)): ?>
+                        <?php if (!empty($error)):?>
                             <div class="text-red-600 text-sm mb-4">
-                                <?php echo $error; ?>
+                                <?php echo $error;?>
                             </div>
-                        <?php endif; ?>
+                        <?php endif;?>
 
                         <div>
                             <label class="text-gray-800 text-xs block mb-2">Email</label>

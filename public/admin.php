@@ -374,163 +374,37 @@
                                                                     </tr>
                                                                 </thead>
 
-                                                                <!-- new user info -->
-                                                                <tbody class="bg-white divide-y divide-gray-200">
-                                                                    <tr>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <p>example@example.com</p>
-                                                                            <p class="text-xs text-gray-400">example
-                                                                            </p>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <p>2024-12-11</p>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <div class="flex text-red-500">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    class="w-5 h-5 mr-2" fill="none"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <circle cx="12" cy="12" r="10"
-                                                                                        fill="none"
-                                                                                        stroke="currentColor"
-                                                                                        stroke-width="2" />
-                                                                                    <path d="M15 9l-6 6M9 9l6 6" />
-                                                                                </svg>
-                                                                                <p>Banned</p>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <div class="flex space-x-4">
-                                                                                <button
-                                                                                    class="py-2 px-4 border border-green-500 rounded-md text-green-500 hover:text-white hover:bg-green-500 focus:outline-none">
-                                                                                    Activate
-                                                                                </button>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
+                                                                <tbody>
+                                                                    <?php
+                                                                    include('../src/database/db.php');
 
-                                                                <!-- new user info -->
-                                                                <tbody class="bg-white divide-y divide-gray-200">
-                                                                    <tr>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-purple-700">
-                                                                            <p>example@example.com</p>
-                                                                            <p class="text-xs text-gray-400">example
-                                                                            </p>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <p>2024-12-11</p>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <div class="flex text-green-500">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    class="w-5 h-5 mr-1" fill="none"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <path stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        stroke-width="2"
-                                                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                                </svg>
-                                                                                <p>Active</p>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <div class="flex space-x-4">
-                                                                                <button
-                                                                                    class="py-2 px-4 text-red-500 hover:bg-red-600 border hover:text-white border-red-500 rounded">
-                                                                                    Ban
-                                                                                </button>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
+                                                                    $sql = "SELECT * FROM users";
+                                                                    $result = mysqli_query($conn, $sql);
 
-                                                                <!-- new user info -->
-                                                                <tbody class="bg-white divide-y divide-gray-200">
-                                                                    <tr>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-purple-700">
-                                                                            <p>example@example.com</p>
-                                                                            <p class="text-xs text-gray-400">example
-                                                                            </p>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <p>2024-12-11</p>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <div class="flex text-gray-500">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    class="w-5 h-5 mr-2" fill="none"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <circle cx="12" cy="12" r="10"
-                                                                                        fill="none"
-                                                                                        stroke="currentColor"
-                                                                                        stroke-width="2" />
-                                                                                    <path d="M15 9l-6 6M9 9l6 6" />
-                                                                                </svg>
-                                                                                <p>No status</p>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <div>
-                                                                                <button
-                                                                                    class="px-4 py-2 mr-2 text-white bg-green-500 rounded hover:bg-green-600">Accept</button>
-                                                                                <button
-                                                                                    class="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600">Refuse</button>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
+                                                                    if (mysqli_num_rows($result) > 0) {
+                                                                        // Output data of each row
+                                                                        while ($row = mysqli_fetch_assoc($result)) {
+                                                                            echo "<tr>";
+                                                                            echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'>" . $row["email"] . "</td>";
+                                                                            echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'>" . $row["created_at"] . "</td>";
+                                                                            echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'>" . $row["status"] . "</td>";
 
-                                                                <!-- new user info -->
-                                                                <tbody class="bg-white divide-y divide-gray-200">
-                                                                    <tr>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <p>example@example.com</p>
-                                                                            <p class="text-xs text-gray-400">example
-                                                                            </p>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <p>2024-12-11</p>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <div class="flex text-blue-500">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                    class="w-5 h-5 mr-2" fill="none"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <circle cx="12" cy="12" r="10"
-                                                                                        fill="none"
-                                                                                        stroke="currentColor"
-                                                                                        stroke-width="2" />
-                                                                                    <path d="M15 9l-6 6M9 9l6 6" />
-                                                                                </svg>
-                                                                                <p>Refused</p>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td
-                                                                            class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
-                                                                            <div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
+                                                                            if ($row["status"] == "pending") {
+                                                                                echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'><div class='flex space-x-4'><button class='py-2 px-4 border border-green-500 rounded-md text-green-500 hover:text-white hover:bg-green-500 focus:outline-none'>Accept</button><button class='py-2 px-4 text-red-500 hover:bg-red-600 border hover:text-white border-red-500 rounded'>Refuse</button></div></td>";
+                                                                            } elseif ($row["status"] == "active") {
+                                                                                echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'><div class='flex space-x-4'><button class='py-2 px-4 text-red-500 hover:bg-red-600 border hover:text-white border-red-500 rounded'>Ban</button></div></td>";
+                                                                            } elseif ($row["status"] == "banned") {
+                                                                                echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'><div class='flex space-x-4'><button class='py-2 px-4 border border-green-500 rounded-md text-green-500 hover:text-white hover:bg-green-500 focus:outline-none'>Activate</button></div></td>";
+                                                                            } elseif ($row["status"] == "refused") {
+                                                                                echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'></td>";
+                                                                            }
+                                                                            echo "</tr>";
+                                                                        }
+                                                                    } else {
+                                                                        echo "0 results";
+                                                                    }
+                                                                    mysqli_close($conn);
+                                                                    ?>
                                                                 </tbody>
                                                             </table>
                                                         </div>
