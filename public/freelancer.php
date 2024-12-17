@@ -65,161 +65,102 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'freelancer') {
             </div>
 
         </nav>
-        <main class="my-1 pt-2 pb-2 px-10 flex-1 bg-gray-200 rounded-l-lg
-        transition duration-500 ease-in-out overflow-y-auto">
+        <main class="my-1 pt-2 pb-2 px-10 flex-1 bg-gray-200 rounded-l-lg transition duration-500 ease-in-out overflow-y-auto">
             <div class="flex flex-col capitalize text-3xl">
                 <span class="font-semibold">hello,</span>
                 <span>tempest!</span>
-
             </div>
             <div class="flex">
-                <div class="mr-6 w-1/2 mt-8 py-2 flex-shrink-0 flex flex-col bg-white
-                rounded-lg">
+                <div class="mr-6 w-1/2 mt-8 py-2 flex-shrink-0 flex flex-col bg-white rounded-lg">
                     <!-- Card list container -->
-
-                    <h3 class="flex items-center pt-1 pb-1 px-8 text-lg font-semibold
-                    capitalize dark:text-gray-300">
+                    <h3 class="flex items-center pt-1 pb-1 px-8 text-lg font-semibold capitalize dark:text-gray-300">
                         <!-- Header -->
                         <span class="text-gray-900">Your Gigs</span>
                         <button class="ml-2">
                             <svg class="h-5 w-5 fill-current" viewBox="0 0 256 512">
                                 <path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9
-                                0l-22.6-22.6c-9.4-9.4-9.4-24.6
-                                0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6
-                                0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136
-                                136c9.5 9.4 9.5 24.6.1 34z"></path>
+                                        0l-22.6-22.6c-9.4-9.4-9.4-24.6
+                                        0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6
+                                        0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136
+                                        136c9.5 9.4 9.5 24.6.1 34z">
+                                </path>
                             </svg>
                         </button>
                     </h3>
-
                     <div>
                         <!-- List -->
-
                         <ul class="pt-1 pb-2 px-3 overflow-y-auto">
+                            <?php
+                            include '../src/database/db.php';
 
-                            <!-- gigs place     -->
-                            <li class="mt-2">
+                            $user_id = $_SESSION['user_id'];
+                            $sql = "SELECT * FROM gigs WHERE freelancer_id = '$user_id'";
+                            $result = mysqli_query($conn, $sql);
 
-                                <a class="p-5 flex flex-col justify-between
-                                bg-gray-200 rounded-lg" href="#">
-
-                                    <div class="flex items-center justify-between
-                                    font-semibold capitalize text-gray-800">
-                                        <!-- Top section -->
-
-                                        <span>Devlop full website</span>
-                                    </div>
-
-                                    <p class="text-sm font-medium leading-snug
-                                    text-gray-600 my-3">
-                                        <!-- Middle section -->
-                                        I will develop a full website for you. The
-                                        website will be responsive, have a clean
-                                        design, and will be easy to navigate. I
-                                        will also make sure that it is optimized
-                                        for search engines. Additionally, I will
-                                        provide you with a content management
-                                        system so that you can easily update the
-                                        content on your website.
-                                    </p>
-
-                                </a>
-                            </li>
-                            <li class="mt-2">
-
-                                <a class="p-5 flex flex-col justify-between bg-gray-200 rounded-lg" href="#">
-
-                                    <div
-                                        class="flex items-center justify-between font-semibold capitalize text-gray-800">
-                                        <!-- Top section -->
-
-                                        <span>Devlop full website</span>
-                                    </div>
-
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    ?>
+                                    <li class="mt-2">
+                                        <a class="p-5 flex flex-col justify-between bg-white rounded-lg shadow hover:shadow-lg transition duration-500 ease-in-out" href="gig.php?gig_id=<?php echo $row['id']; ?>">
+                                            <div
+                                                class="flex items-center justify-between font-semibold capitalize text-gray-800">
+                                                <span><?php echo $row['title']; ?></span>
+                                                <span class="text-sm">
+                                                    <?php echo number_format($row['price'], 2); ?>
+                                                </span>
+                                            </div>
+                                            <p class="text-sm font-medium leading-snug text-gray-600 my-3">
+                                                <?php echo substr($row['description'], 0, 200) . '...'; ?>
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <?php
+                                }
+                            } else {
+                                ?>
+                                <li class="mt-2">
                                     <p class="text-sm font-medium leading-snug text-gray-600 my-3">
-                                        <!-- Middle section -->
-                                        I will develop a full website for you. The
-                                        website will be responsive, have a clean
-                                        design, and will be easy to navigate. I
-                                        will also make sure that it is optimized
-                                        for search engines. Additionally, I will
-                                        provide you with a content management
-                                        system so that you can easily update the
-                                        content on your website.
+                                        You haven't created any gigs yet.
                                     </p>
+                                </li>
+                                <?php
+                            }
 
-                                </a>
-                            </li>
-                            <li class="mt-2">
-
-                                <a class="p-5 flex flex-col justify-between
-                                bg-gray-200 rounded-lg" href="#">
-
-                                    <div class="flex items-center justify-between
-                                    font-semibold capitalize text-gray-800">
-                                        <!-- Top section -->
-
-                                        <span>Devlop full website</span>
-                                    </div>
-
-                                    <p class="text-sm font-medium leading-snug
-                                    text-gray-600 my-3">
-                                        <!-- Middle section -->
-                                        I will develop a full website for you. The
-                                        website will be responsive, have a clean
-                                        design, and will be easy to navigate. I
-                                        will also make sure that it is optimized
-                                        for search engines. Additionally, I will
-                                        provide you with a content management
-                                        system so that you can easily update the
-                                        content on your website.
-                                    </p>
-
-                                </a>
-                            </li>
+                            mysqli_close($conn);
+                            ?>
                         </ul>
                     </div>
-
                 </div>
-
                 <div class="mr-6 w-1/2 mt-8 py-2 flex-shrink-0 flex flex-col
-                bg-purple-300 rounded-lg text-white">
-
+        bg-purple-300 rounded-lg text-white">
                     <h3 class="flex items-center pt-1 pb-1 px-8 text-lg font-bold
-                    capitalize">
-                        <!-- Header -->
+            capitalize">
                         <span>scheduled lessons</span>
                         <button class="ml-2">
                             <svg class="h-5 w-5 fill-current" viewBox="0 0 256 512">
                                 <path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9
-                                0l-22.6-22.6c-9.4-9.4-9.4-24.6
-                                0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6
-                                0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136
-                                136c9.5 9.4 9.5 24.6.1 34z"></path>
+                        0l-22.6-22.6c-9.4-9.4-9.4-24.6
+                        0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6
+                        0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136
+                        136c9.5 9.4 9.5 24.6.1 34z"></path>
                             </svg>
                         </button>
                     </h3>
-
                     <div class="flex flex-col items-center mt-12">
                         <img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-state-2130362-1800926.png"
                             alt=" empty schedule" />
-
                         <span class="font-bold mt-8">You have no gigs yet</span>
-
                         <span class="text-purple-500">
                             Create your first gig
                         </span>
-
                         <button id="openAgigs" class="mt-8 bg-purple-800 rounded-lg py-2 px-4">
                             Create a Gig
                         </button>
-
                     </div>
                 </div>
-
             </div>
-
         </main>
+
 
         <aside class="w-1/4 my-1 mr-1 px-6 py-4 flex flex-col bg-white
         dark:text-gray-400 rounded-r-lg overflow-y-auto">

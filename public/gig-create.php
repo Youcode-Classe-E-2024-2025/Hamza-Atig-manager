@@ -17,11 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $delivery_time = $_POST["delivery_time"];
     $gig_type = $_POST["gig_type"];
 
-    $conn = mysqli_connect("your_host", "your_username", "your_password", "your_database");
-
-    if (!$conn) {
-        die("Connection failed: ". mysqli_connect_error());
-    }
+    include '../src/database/db.php';
 
     $sql = "INSERT INTO gigs (title, description, price, category, subcategory, skills, experience, delivery_time, gig_type, freelancer_id)
             VALUES ('$title', '$description', '$price', '$category', '$subcategory', '$skills', '$experience', '$delivery_time', '$gig_type', '".$_SESSION['user_id']."')";
