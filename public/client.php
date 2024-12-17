@@ -54,7 +54,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'client') {
             dark:text-blue-500 rounded-full">
                 <!-- important action -->
 
-                <a href="#">
+                <a href="./logout.php">
                     <svg width="20px" height="20px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"
                         class="icon">
                         <path
