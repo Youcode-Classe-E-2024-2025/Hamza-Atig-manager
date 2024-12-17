@@ -376,7 +376,7 @@
 
                                                                 <tbody>
                                                                     <?php
-                                                                    include('../src/database/db.php');
+                                                                    include '../src/database/db.php';
 
                                                                     $sql = "SELECT * FROM users";
                                                                     $result = mysqli_query($conn, $sql);
@@ -390,11 +390,11 @@
                                                                             echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'>" . $row["status"] . "</td>";
 
                                                                             if ($row["status"] == "pending") {
-                                                                                echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'><div class='flex space-x-4'><button class='py-2 px-4 border border-green-500 rounded-md text-green-500 hover:text-white hover:bg-green-500 focus:outline-none'>Accept</button><button class='py-2 px-4 text-red-500 hover:bg-red-600 border hover:text-white border-red-500 rounded'>Refuse</button></div></td>";
+                                                                                echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'><div class='flex space-x-4'><form action='' method='post'><input type='hidden' name='id' value='" . $row['id'] . "'><input type='hidden' name='action' value='accept'><button class='py-2 px-4 border border-green-500 rounded-md text-green-500 hover:text-white hover:bg-green-500 focus:outline-none'>Accept</button></form><form action='' method='post'><input type='hidden' name='id' value='" . $row['id'] . "'><input type='hidden' name='action' value='refuse'><button class='py-2 px-4 text-red-500 hover:bg-red-600 border hover:text-white border-red-500 rounded'>Refuse</button></form></div></td>";
                                                                             } elseif ($row["status"] == "active") {
-                                                                                echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'><div class='flex space-x-4'><button class='py-2 px-4 text-red-500 hover:bg-red-600 border hover:text-white border-red-500 rounded'>Ban</button></div></td>";
+                                                                                echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'><div class='flex space-x-4'><form action='' method='post'><input type='hidden' name='id' value='" . $row['id'] . "'><input type='hidden' name='action' value='ban'><button class='py-2 px-4 text-red-500 hover:bg-red-600 border hover:text-white border-red-500 rounded'>Ban</button></form></div></td>";
                                                                             } elseif ($row["status"] == "banned") {
-                                                                                echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'><div class='flex space-x-4'><button class='py-2 px-4 border border-green-500 rounded-md text-green-500 hover:text-white hover:bg-green-500 focus:outline-none'>Activate</button></div></td>";
+                                                                                echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'><div class='flex space-x-4'><form action='' method='post'><input type='hidden' name='id' value='" . $row['id'] . "'><input type='hidden' name='action' value='unban'><button class='py-2 px-4 border border-green-500 rounded-md text-green-500 hover:text-white hover:bg-green-500 focus:outline-none'>Unban</button></form></div></td>";
                                                                             } elseif ($row["status"] == "refused") {
                                                                                 echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'></td>";
                                                                             }
@@ -403,7 +403,6 @@
                                                                     } else {
                                                                         echo "0 results";
                                                                     }
-                                                                    mysqli_close($conn);
                                                                     ?>
                                                                 </tbody>
                                                             </table>
@@ -415,6 +414,50 @@
                                     </div>
                                 </div>
                             </div>
+                            <?php
+                            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                                $id = $_POST['id'];
+                                $action = $_POST['action'];
+
+                                if ($action === 'accept') {
+                                    $sql = "UPDATE users SET status = 'active' WHERE id = $id";
+                                    $result = mysqli_query($conn, $sql);
+                                    if ($result) {
+                                        echo "<script>window.location.href='admin.php';</script>";
+                                        exit();
+                                    } else {
+                                        echo 'Error accepting user';
+                                    }
+                                } elseif ($action === 'refuse') {
+                                    $sql = "UPDATE users SET status = 'refused' WHERE id = $id";
+                                    $result = mysqli_query($conn, $sql);
+                                    if ($result) {
+                                        echo "<script>window.location.href='admin.php';</script>";
+                                        exit();
+                                    } else {
+                                        echo 'Error refusing user';
+                                    }
+                                } elseif ($action === 'ban') {
+                                    $sql = "UPDATE users SET status = 'banned' WHERE id = $id";
+                                    $result = mysqli_query($conn, $sql);
+                                    if ($result) {
+                                        echo "<script>window.location.href='admin.php';</script>";
+                                        exit();
+                                    } else {
+                                        echo 'Error banning user';
+                                    }
+                                } elseif ($action === 'unban') {
+                                    $sql = "UPDATE users SET status = 'active' WHERE id = $id";
+                                    $result = mysqli_query($conn, $sql);
+                                    if ($result) {
+                                        echo "<script>window.location.href='admin.php';</script>";
+                                        exit();
+                                    } else {
+                                        echo 'Error unbanning user';
+                                    }
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -462,7 +505,7 @@
             series: [{
                 name: 'Freelancers',
                 type: 'area',
-                data: [20, 30]
+                data: [26, 20]
             }, {
                 name: 'Clients',
                 type: 'line',
