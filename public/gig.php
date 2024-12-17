@@ -79,7 +79,7 @@ if (mysqli_num_rows($result) > 0) {
 </html>
 <?php
 } else {
-    header("Location: dashboard.php");
+    header("Location: freelancer.php");
     exit();
 }
 
