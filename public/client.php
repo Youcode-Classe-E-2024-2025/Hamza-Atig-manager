@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'freelancer') {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'client') {
     header("Location: login.php");
     exit();
 }
@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'freelancer') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freelancer dashBoard</title>
+    <title>Client dashBoard</title>
     <link rel="stylesheet" href="../src/output.css">
 </head>
 
@@ -65,7 +65,65 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'freelancer') {
             </div>
 
         </nav>
-        
+
+        <main
+            class="my-4 pt-6 pb-6 px-10 flex-1 bg-gray-100 rounded-l-lg transition duration-500 ease-in-out overflow-y-auto">
+            <h1 class="text-4xl font-bold mb-8 text-gray-800">Available Gigs</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <?php
+                include '../src/database/db.php';
+
+                $sql = "SELECT * FROM gigs";
+                $result = mysqli_query($conn, $sql);
+
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $freelancer_id = $row['freelancer_id'];
+                        $freelancer_sql = "SELECT username FROM users WHERE id = '$freelancer_id'";
+                        $freelancer_result = mysqli_query($conn, $freelancer_sql);
+                        $freelancer_row = mysqli_fetch_assoc($freelancer_result);
+                        $freelancer_username = $freelancer_row['username'];
+                        ?>
+                        <div
+                            class="bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                            <!-- Card Header -->
+                            <div class="bg-blue-600 text-white py-4 px-6">
+                                <h3 class="text-lg font-semibold"><?php echo htmlspecialchars($row['title']); ?></h3>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="p-6">
+                                <p class="text-gray-700 text-sm mb-2"><span class="font-semibold">Description:</span>
+                                <?php echo htmlspecialchars($row['description']); ?></p>
+                                <p class="text-gray-700 text-sm mb-2"><span class="font-semibold">Category:</span>
+                                    <?php echo htmlspecialchars($row['category']); ?></p>
+                                <p class="text-gray-700 text-sm mb-2"><span class="font-semibold">Subcategory:</span>
+                                    <?php echo htmlspecialchars($row['subcategory']); ?></p>
+                                <p class="text-gray-700 text-sm mb-2"><span class="font-semibold">Skills:</span>
+                                    <?php echo htmlspecialchars($row['skills']); ?></p>
+                                <p class="text-gray-700 text-sm mb-2"><span class="font-semibold">Experience:</span>
+                                    <?php echo htmlspecialchars($row['experience']); ?></p>
+                                <p class="text-gray-700 text-sm mb-2"><span class="font-semibold">Delivery Time:</span>
+                                    <?php echo htmlspecialchars($row['delivery_time']); ?></p>
+                                <p class="text-gray-700 text-sm mb-2"><span class="font-semibold">Gig Type:</span>
+                                    <?php echo htmlspecialchars($row['gig_type']); ?></p>
+                            </div>
+                            <!-- Card Footer -->
+                            <div class="px-6 py-4 bg-gray-50 text-right flex flex-row justify-between">
+                                <p>$<?php echo number_format($row['price'], 2); ?></p>
+                                <a href="#"
+                                    class="text-blue-600 hover:underline font-semibold">@<?php echo htmlspecialchars($freelancer_username); ?></a>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                } else {
+                    echo "<p class='col-span-3 text-center text-gray-600'>No gigs available</p>";
+                }
+                mysqli_close($conn);
+                ?>
+            </div>
+        </main>
+
     </div>
 </body>
 
