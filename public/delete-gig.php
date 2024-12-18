@@ -16,5 +16,4 @@ mysqli_query($conn, $sql);
 header("Location: freelancer.php");
 exit();
 
-mysqli_close($conn);
 ?>

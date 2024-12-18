@@ -5,7 +5,6 @@ use PHPMailer\PHPMailer\Exception;
 require '../vendor/autoload.php'; // Include Composer's autoloader
 include '../src/database/db.php';
 
-// Define the send_verification_email function using PHPMailer
 function send_verification_email(string $email, string $verification_token): void
 {
     $mail = new PHPMailer(true);
@@ -13,16 +12,16 @@ function send_verification_email(string $email, string $verification_token): voi
     try {
         // SMTP Configuration for Hotmail
         $mail->isSMTP();
-        $mail->Host = 'smtp.office365.com'; // Hotmail/Outlook SMTP server
+        $mail->Host = 'smtp.mailersend.net';
         $mail->SMTPAuth = true;
-        $mail->Username = 'w0rkflow@hotmail.com';
-        $mail->Password = 'hdZ?XnY@EbsTOj)*';
+        $mail->Username = 'MS_EnSWH4@trial-z86org80y3k4ew13.mlsender.net';
+        $mail->Password = 'X5faGtEMzAVjuK7O';
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
 
         // Email details
-        $mail->setFrom('w0rkflow@hotmail.com', 'WorkFlow');
-        $mail->addAddress($email); // Recipient's email
+        $mail->setFrom('MS_EnSWH4@trial-z86org80y3k4ew13.mlsender.net', 'WorkFlow');
+        $mail->addAddress($email);
 
         // Email subject & body
         $verification_link = "http://localhost:8000/public/verify-email.php?token=$verification_token";
@@ -33,10 +32,13 @@ function send_verification_email(string $email, string $verification_token): voi
             <p>Thank you for signing up. Please click the link below to verify your email:</p>
             <a href='$verification_link' style='color:blue;'>Verify Email</a>
         ";
+        
+        $mail->SMTPDebug = 2;
 
         $mail->send();
+        echo "<script>alert('Verification email sent. Please check your inbox.');</script>";
     } catch (Exception $e) {
-        echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        echo "<script>alert('Email could not be sent. Mailer Error: {$mail->ErrorInfo}');</script>";
     }
 }
 
@@ -54,18 +56,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        // Email already exists
         echo "<script>alert('Error: This email is already registered.'); window.location.href = 'signup.php';</script>";
     } else {
-        // Generate a random verification token
         $verification_token = bin2hex(random_bytes(16));
 
-        // Insert user data into the database
         $stmt = $conn->prepare("INSERT INTO users (email, username, password, role, verification_token, status) VALUES (?,?,?,?,?, 'pending')");
         $stmt->bind_param("sssss", $email, $username, $password, $role, $verification_token);
 
         if ($stmt->execute()) {
-            // Send a verification email
             send_verification_email($email, $verification_token);
             echo "<script>alert('Sign up successful! Please verify your email to activate your account.'); window.location.href = 'login.php';</script>";
         } else {
