@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['token'])) {
 
     try {
         // Check if the token exists in the database
-        $stmt = $conn->prepare("SELECT id, status FROM users WHERE verification_token = ?");
+        $stmt = $conn->prepare("SELECT id, status, verified FROM users WHERE verification_token = ?");
         $stmt->bind_param("s", $verification_token);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -18,8 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET['token'])) {
             if ($user['status'] === 'active') {
                 echo "<script>alert('Your email is already verified!'); window.location.href = 'login.php';</script>";
             } else {
-                // Update the user's status to active
-                $update_stmt = $conn->prepare("UPDATE users SET status = 'active', verification_token = NULL WHERE id = ?");
+                // Only increment the verified column
+                $update_stmt = $conn->prepare("UPDATE users SET verified = verified + 1 WHERE id = ?");
                 $update_stmt->bind_param("i", $user['id']);
                 if ($update_stmt->execute()) {
                     echo "<script>alert('Email verified successfully! You can now log in.'); window.location.href = 'login.php';</script>";

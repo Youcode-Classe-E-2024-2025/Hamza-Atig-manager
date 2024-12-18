@@ -28,11 +28,92 @@ function send_verification_email(string $email, string $verification_token): voi
         $mail->isHTML(true);
         $mail->Subject = 'Please Verify Your Email';
         $mail->Body = "
-            <h2>Email Verification</h2>
-            <p>Thank you for signing up. Please click the link below to verify your email:</p>
-            <a href='$verification_link' style='color:blue;'>Verify Email</a>
-        ";
-        
+    <html>
+        <head>
+            <style>
+                body {
+                    font-family: 'Arial', sans-serif;
+                    background-color: #f7f7f7;
+                    margin: 0;
+                    padding: 0;
+                }
+                .email-container {
+                    width: 100%;
+                    max-width: 650px;
+                    margin: 0 auto;
+                    background-color: #ffffff;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                }
+                h2 {
+                    color: #333333;
+                    font-size: 28px;
+                    text-align: center;
+                    margin-bottom: 20px;
+                    font-weight: bold;
+                }
+                p {
+                    font-size: 16px;
+                    color: #555555;
+                    text-align: center;
+                    line-height: 1.6;
+                    margin: 15px 0;
+                }
+                .btn {
+                    display: inline-block;
+                    background-color: #4CAF50;
+                    color: #ffffff;
+                    padding: 12px 25px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    text-align: center;
+                    margin-top: 20px;
+                    transition: background-color 0.3s ease;
+                }
+                .btn:hover {
+                    background-color: #45a049;
+                }
+                .email-header {
+                    text-align: center;
+                    margin-bottom: 30px;
+                }
+                .email-header img {
+                    max-width: 200px;
+                }
+                .footer {
+                    font-size: 12px;
+                    color: #888888;
+                    text-align: center;
+                    margin-top: 30px;
+                }
+                .footer a {
+                    color: #4CAF50;
+                    text-decoration: none;
+                }
+            </style>
+        </head>
+        <body>
+            <div class='email-container'>
+                <div class='email-header'>
+                    <img src='https://cdn.prod.website-files.com/66391f096f4e5570969addbf/6682c1d898874f4bedf5fa1f_Freelancer-start-1024x512.png' alt='Workflow Logo'>
+                </div>
+                <h2>Welcome to Workflow - Email Verification</h2>
+                <p>Thank you for joining Workflow! We're excited to have you on board. To get started and unlock all the features of our platform, please verify your email address by clicking the link below:</p>
+                <a href='$verification_link' class='btn'>Verify Your Email</a>
+                <p>If you did not sign up for Workflow, please ignore this email. You will not be charged.</p>
+                <div class='footer'>
+                    <p>Need help? Visit our <a href='https://yourwebsite.com/support'>Support Center</a>.</p>
+                    <p>&copy; " . date('Y') . " Workflow. All rights reserved.</p>
+                </div>
+            </div>
+        </body>
+    </html>
+";
+
+
         $mail->SMTPDebug = 2;
 
         $mail->send();
