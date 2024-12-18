@@ -1,21 +1,76 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../vendor/autoload.php'; // Include Composer's autoloader
 include '../src/database/db.php';
+
+// Define the send_verification_email function using PHPMailer
+function send_verification_email(string $email, string $verification_token): void
+{
+    $mail = new PHPMailer(true);
+
+    try {
+        // SMTP Configuration for Hotmail
+        $mail->isSMTP();
+        $mail->Host = 'smtp.office365.com'; // Hotmail/Outlook SMTP server
+        $mail->SMTPAuth = true;
+        $mail->Username = 'w0rkflow@hotmail.com';
+        $mail->Password = 'hdZ?XnY@EbsTOj)*';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        // Email details
+        $mail->setFrom('w0rkflow@hotmail.com', 'WorkFlow');
+        $mail->addAddress($email); // Recipient's email
+
+        // Email subject & body
+        $verification_link = "http://localhost:8000/public/verify-email.php?token=$verification_token";
+        $mail->isHTML(true);
+        $mail->Subject = 'Please Verify Your Email';
+        $mail->Body = "
+            <h2>Email Verification</h2>
+            <p>Thank you for signing up. Please click the link below to verify your email:</p>
+            <a href='$verification_link' style='color:blue;'>Verify Email</a>
+        ";
+
+        $mail->send();
+    } catch (Exception $e) {
+        echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+}
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST['email'];
     $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Secure password
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $role = $_POST['role'];
 
-    // Insert user data into the database
-    $stmt = $conn->prepare("INSERT INTO users (email, username, password, role) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $email, $username, $password, $role);
+    // Check if the email already exists
+    $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
 
-    if ($stmt->execute()) {
-        echo "<script>alert('Sign up successful!'); window.location.href = 'login.php';</script>";
+    if ($stmt->num_rows > 0) {
+        // Email already exists
+        echo "<script>alert('Error: This email is already registered.'); window.location.href = 'signup.php';</script>";
     } else {
-        echo "<script>alert('Error: Could not sign up. Please try again.');</script>";
+        // Generate a random verification token
+        $verification_token = bin2hex(random_bytes(16));
+
+        // Insert user data into the database
+        $stmt = $conn->prepare("INSERT INTO users (email, username, password, role, verification_token, status) VALUES (?,?,?,?,?, 'pending')");
+        $stmt->bind_param("sssss", $email, $username, $password, $role, $verification_token);
+
+        if ($stmt->execute()) {
+            // Send a verification email
+            send_verification_email($email, $verification_token);
+            echo "<script>alert('Sign up successful! Please verify your email to activate your account.'); window.location.href = 'login.php';</script>";
+        } else {
+            echo "<script>alert('Error: Could not sign up. Please try again.');</script>";
+        }
     }
     $stmt->close();
 }

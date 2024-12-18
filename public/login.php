@@ -104,7 +104,7 @@ $conn->close();
                                 </label>
                             </div>
                             <div>
-                                <a href="#"
+                                <a href="./recoverpassword.php"
                                     class="text-blue-600 font-semibold text-sm hover:underline">
                                     Forgot Password?
                                 </a>
