@@ -65,7 +65,34 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'freelancer') {
             </div>
 
         </nav>
-        <main class="my-1 pt-2 pb-2 px-10 flex-1 bg-gray-200 rounded-l-lg transition duration-500 ease-in-out overflow-y-auto">
+        <main
+            class="my-1 pt-2 pb-2 px-10 flex-1 bg-gray-200 rounded-l-lg transition duration-500 ease-in-out overflow-y-auto">
+            <?php
+            include '../src/database/db.php';
+            $user_id = $_SESSION['user_id'] ?? null;
+
+            if ($user_id) {
+                $stmt = $conn->prepare("SELECT verified FROM users WHERE id = ?");
+                $stmt->bind_param("i", $user_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $user = $result->fetch_assoc();
+                $stmt->close();
+
+                if ($user && $user['verified'] == 0) {
+                    ?>
+                    <div class="bg-red-500 text-white p-4 rounded-lg">
+                        <p class="font-semibold">Verify your account before 24 hours or you will get a ban!</p>
+                        <p>Check your email for a verification link.</p>
+                    </div>
+                    <?php
+                }
+            } else {
+                echo "<p class='text-red-500'>User not logged in or session expired.</p>";
+            }
+            $conn->close();
+            ?>
+
             <div class="flex flex-col capitalize text-3xl">
                 <span class="font-semibold">hello,</span>
                 <span>tempest!</span>
@@ -101,7 +128,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'freelancer') {
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     ?>
                                     <li class="mt-2">
-                                        <a class="p-5 flex flex-col justify-between bg-white rounded-lg shadow hover:shadow-lg transition duration-500 ease-in-out" href="gig.php?gig_id=<?php echo $row['id']; ?>">
+                                        <a class="p-5 flex flex-col justify-between bg-white rounded-lg shadow hover:shadow-lg transition duration-500 ease-in-out"
+                                            href="gig.php?gig_id=<?php echo $row['id']; ?>">
                                             <div
                                                 class="flex items-center justify-between font-semibold capitalize text-gray-800">
                                                 <span><?php echo $row['title']; ?></span>
