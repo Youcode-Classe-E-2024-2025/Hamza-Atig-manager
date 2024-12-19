@@ -418,6 +418,12 @@
                                                                         <th
                                                                             class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                                                             <div class="flex cursor-pointer">
+                                                                                <span class="mr-2">Role</span>
+                                                                            </div>
+                                                                        </th>
+                                                                        <th
+                                                                            class="px-6 py-3 bg-gray-50 text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                                                            <div class="flex cursor-pointer">
                                                                                 <span class="mr-2">ACTION</span>
                                                                             </div>
                                                                         </th>
@@ -439,6 +445,7 @@
                                                                             echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'>" . $row["email"] . "</td>";
                                                                             echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'>" . $row["created_at"] . "</td>";
                                                                             echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'>" . $row["status"] . "</td>";
+                                                                            echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'>" . $row["role"] . "</td>";
 
                                                                             if ($row["status"] == "pending") {
                                                                                 echo "<td class='px-6 py-4 whitespace-no-wrap text-sm leading-5'><div class='flex space-x-4'><form action='' method='post'><input type='hidden' name='id' value='" . $row['id'] . "'><input type='hidden' name='action' value='accept'><button class='py-2 px-4 border border-green-500 rounded-md text-green-500 hover:text-white hover:bg-green-500 focus:outline-none'>Accept</button></form><form action='' method='post'><input type='hidden' name='id' value='" . $row['id'] . "'><input type='hidden' name='action' value='refuse'><button class='py-2 px-4 text-red-500 hover:bg-red-600 border hover:text-white border-red-500 rounded'>Refuse</button></form></div></td>";
