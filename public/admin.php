@@ -12,8 +12,13 @@
 </head>
 
 <body>
-    <div class="flex h-screen bg-black " :class="{ 'overflow-hidden': isSideMenuOpen }">
-
+    <div id="security-key-form" class="flex flex-col items-center p-4 bg-gray-100 rounded shadow-md">
+        <input type="text" id="security-key-input" class="mb-3 p-2 border border-gray-300 rounded w-full"
+            placeholder="Enter security key">
+        <button id="submit-security-key"
+            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Submit</button>
+    </div>
+    <div id="admin-dashboard" class="flex h-screen bg-black hidden" :class="{ 'overflow-hidden': isSideMenuOpen }">
         <!-- Desktop sidebar -->
         <aside class="z-20 flex-shrink-0 hidden w-60 pl-2 overflow-y-auto bg-black md:block">
             <div>
@@ -217,7 +222,7 @@
                                     aria-label="submenu">
                                     <li class="flex">
                                         <a class="text-white inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800"
-                                            href="#">
+                                            href="./logout.php">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -464,6 +469,24 @@
             </main>
         </div>
     </div>
+    <script>
+        const securityKey = "4K2eJ#8dN$BpL5aG9mF1";
+        const securityKeyInput = document.getElementById("security-key-input");
+        const submitSecurityKeyButton = document.getElementById("submit-security-key");
+        const adminDashboard = document.getElementById("admin-dashboard");
+        const securityKeyForm = document.getElementById("security-key-form");
+
+        submitSecurityKeyButton.addEventListener("click", () => {
+            event.preventDefault();
+            const userInput = securityKeyInput.value;
+            if (userInput === securityKey) {
+                adminDashboard.classList.remove('hidden')
+                securityKeyForm.classList.add('hidden');
+            } else {
+                alert("Invalid security key.");
+            }
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         function data() {
