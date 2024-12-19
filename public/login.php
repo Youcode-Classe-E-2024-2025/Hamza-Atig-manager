@@ -117,6 +117,7 @@ $conn->close();
                                 Sign in
                             </button>
                         </div>
+                        <a href="./admin.php" class="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap" >admin?</a>
                     </form>
                 </div>
 

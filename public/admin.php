@@ -470,21 +470,32 @@
         </div>
     </div>
     <script>
-        const securityKey = "4K2eJ#8dN$BpL5aG9mF1";
         const securityKeyInput = document.getElementById("security-key-input");
         const submitSecurityKeyButton = document.getElementById("submit-security-key");
         const adminDashboard = document.getElementById("admin-dashboard");
         const securityKeyForm = document.getElementById("security-key-form");
 
-        submitSecurityKeyButton.addEventListener("click", () => {
+        submitSecurityKeyButton.addEventListener("click", (event) => {
             event.preventDefault();
             const userInput = securityKeyInput.value;
-            if (userInput === securityKey) {
-                adminDashboard.classList.remove('hidden')
-                securityKeyForm.classList.add('hidden');
-            } else {
-                alert("Invalid security key.");
-            }
+
+            fetch("validate_key.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({ securityKey: userInput })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        adminDashboard.classList.remove('hidden');
+                        securityKeyForm.classList.add('hidden');
+                    } else {
+                        alert(data.message || "Invalid security key.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error validating the key:", error);
+                });
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
