@@ -261,7 +261,22 @@
                                             </div>
                                             <div class="ml-2 w-full flex-1">
                                                 <div>
-                                                    <div class="mt-3 text-3xl font-bold leading-8">4</div>
+                                                    <div class="mt-3 text-3xl font-bold leading-8"><?php
+                                                    include '../src/database/db.php';
+                                                    $sql = "SELECT 
+                                                    SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pendingCount,
+                                                    SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) as activeCount,
+                                                    SUM(CASE WHEN status = 'refused' THEN 1 ELSE 0 END) as refusedCount,
+                                                    SUM(CASE WHEN status = 'banned' THEN 1 ELSE 0 END) as bannedCount
+                                                    FROM users";
+                                                    $result = mysqli_query($conn, $sql);
+                                                    $obj = mysqli_fetch_object($result);
+                                                    $pendingCount = $obj->pendingCount;
+                                                    $activeCount = $obj->activeCount;
+                                                    $refusedCount = $obj->refusedCount;
+                                                    $bannedCount = $obj->bannedCount;
+                                                    echo $pendingCount + $activeCount + $refusedCount + $bannedCount;
+                                                    ?></div>
 
                                                     <div class="mt-1 text-base text-gray-600">login requests</div>
                                                 </div>
@@ -281,7 +296,22 @@
                                             </div>
                                             <div class="ml-2 w-full flex-1">
                                                 <div>
-                                                    <div class="mt-3 text-3xl font-bold leading-8">2</div>
+                                                    <div class="mt-3 text-3xl font-bold leading-8"><?php
+                                                    include '../src/database/db.php';
+                                                    $sql = "SELECT 
+                                                    SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pendingCount,
+                                                    SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) as activeCount,
+                                                    SUM(CASE WHEN status = 'refused' THEN 1 ELSE 0 END) as refusedCount,
+                                                    SUM(CASE WHEN status = 'banned' THEN 1 ELSE 0 END) as bannedCount
+                                                    FROM users";
+                                                    $result = mysqli_query($conn, $sql);
+                                                    $obj = mysqli_fetch_object($result);
+                                                    $pendingCount = $obj->pendingCount;
+                                                    $activeCount = $obj->activeCount;
+                                                    $refusedCount = $obj->refusedCount;
+                                                    $bannedCount = $obj->bannedCount;
+                                                    echo $activeCount + $bannedCount;
+                                                    ?></div>
 
                                                     <div class="mt-1 text-base text-gray-600">Accepted requests</div>
                                                 </div>
@@ -304,7 +334,22 @@
                                             </div>
                                             <div class="ml-2 w-full flex-1">
                                                 <div>
-                                                    <div class="mt-3 text-3xl font-bold leading-8">1</div>
+                                                    <div class="mt-3 text-3xl font-bold leading-8"><?php
+                                                    include '../src/database/db.php';
+                                                    $sql = "SELECT 
+                                                    SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pendingCount,
+                                                    SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) as activeCount,
+                                                    SUM(CASE WHEN status = 'refused' THEN 1 ELSE 0 END) as refusedCount,
+                                                    SUM(CASE WHEN status = 'banned' THEN 1 ELSE 0 END) as bannedCount
+                                                    FROM users";
+                                                    $result = mysqli_query($conn, $sql);
+                                                    $obj = mysqli_fetch_object($result);
+                                                    $pendingCount = $obj->pendingCount;
+                                                    $activeCount = $obj->activeCount;
+                                                    $refusedCount = $obj->refusedCount;
+                                                    $bannedCount = $obj->bannedCount;
+                                                    echo $pendingCount;
+                                                    ?></div>
 
                                                     <div class="mt-1 text-base text-gray-600">in review</div>
                                                 </div>
@@ -385,6 +430,7 @@
 
                                                                     $sql = "SELECT * FROM users";
                                                                     $result = mysqli_query($conn, $sql);
+                                                                    $loginrequestsnum = mysqli_num_rows($result);
 
                                                                     if (mysqli_num_rows($result) > 0) {
                                                                         // Output data of each row
