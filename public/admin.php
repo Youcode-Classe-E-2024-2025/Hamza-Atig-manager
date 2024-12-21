@@ -593,10 +593,6 @@
                 name: 'Freelancers',
                 type: 'area',
                 data: [26, 20]
-            }, {
-                name: 'Clients',
-                type: 'line',
-                data: [14.5, 16]
             }],
             chart: {
                 height: 350,
@@ -622,12 +618,6 @@
             yaxis: [{
                 title: {
                     text: 'income',
-                },
-            },
-            {
-                opposite: true,
-                title: {
-                    text: 'Accepts',
                 },
             },
             ],
